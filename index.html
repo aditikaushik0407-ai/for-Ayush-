@@ -1,23 +1,60 @@
-valentine-ayush/
-│
-├── index.html
-├── style.css
-├── script.js
-└── images/
-    ├── ayush1.jpg
-    ├── ayush2.jpg
-    ├── ayush3.jpg
-    ├── ayush4.jpg
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>For Ayush ❤️</title>
-  <link rel="stylesheet" href="style.css">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      color: white;
+      text-align: center;
+    }
+
+    .slide {
+      display: none;
+      min-height: 100vh;
+      padding: 70px 20px;
+      box-sizing: border-box;
+    }
+
+    .slide.active {
+      display: block;
+    }
+
+    h1, h2, h3 {
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 20px;
+      max-width: 650px;
+      margin: 0 auto 30px;
+      line-height: 1.5;
+    }
+
+    button {
+      margin: 10px;
+      padding: 12px 28px;
+      font-size: 18px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      background: white;
+      color: #ff5e78;
+      font-weight: bold;
+    }
+
+    button:hover {
+      transform: scale(1.08);
+    }
+  </style>
 </head>
+
 <body>
 
-  <!-- Slide 1 -->
   <div class="slide active">
     <h1>Ayush 💖</h1>
     <h2>Will you choose to be with Aditi for a lifetime?</h2>
@@ -25,7 +62,6 @@ valentine-ayush/
     <button onclick="nextSlide()">YES, obviously 😌</button>
   </div>
 
-  <!-- Slide 2 -->
   <div class="slide">
     <h1>Congratulations 🎉</h1>
     <p>
@@ -36,10 +72,8 @@ valentine-ayush/
     <button onclick="nextSlide()">Show my benefits 😍</button>
   </div>
 
-  <!-- Slide 3 -->
   <div class="slide">
-    <img src="images/ayush1.jpg">
-    <h2>Benefit #1</h2>
+    <h2>Benefit #1 💫</h2>
     <p>
       You get a partner who loves you endlessly,
       believes in you always, and cheers for you even louder than you do 🫶
@@ -47,21 +81,17 @@ valentine-ayush/
     <button onclick="nextSlide()">Next →</button>
   </div>
 
-  <!-- Slide 4 -->
   <div class="slide">
-    <img src="images/ayush2.jpg">
-    <h2>Benefit #2</h2>
+    <h2>Benefit #2 ❤️</h2>
     <p>
-      Unlimited hugs, surprise kisses,
-      and emotional support — especially because you deserve all of it ❤️
+      Unlimited hugs, surprise kisses, emotional support
+      and comfort—especially because you deserve all of it 🤍
     </p>
     <button onclick="nextSlide()">Next →</button>
   </div>
 
-  <!-- Slide 5 -->
   <div class="slide">
-    <img src="images/ayush3.jpg">
-    <h2>Benefit #3</h2>
+    <h2>Benefit #3 😄</h2>
     <p>
       Life with Aditi means laughter in small moments,
       silly jokes, deep talks and a best friend forever 🥹
@@ -69,77 +99,27 @@ valentine-ayush/
     <button onclick="nextSlide()">Next →</button>
   </div>
 
-  <!-- Slide 6 -->
   <div class="slide">
-    <img src="images/ayush4.jpg">
-    <h2>Benefit #4</h2>
+    <h2>Benefit #4 💍</h2>
     <p>
-      You get someone who admires your kindness,
-      strength and heart — and falls for you a little more every day 💕
+      Choosing Aditi means choosing love, friendship,
+      growth and someone who chooses you every single day 💖
     </p>
-    <button onclick="nextSlide()">Forever & Always 💍</button>
+    <h3>Forever & Always, Ayush ❤️</h3>
   </div>
 
-<script src="script.js"></script>
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll(".slide");
+
+    function nextSlide() {
+      slides[currentSlide].classList.remove("active");
+      currentSlide++;
+      if (currentSlide < slides.length) {
+        slides[currentSlide].classList.add("active");
+      }
+    }
+  </script>
+
 </body>
 </html>
-body {
-  font-family: 'Poppins', sans-serif;
-  background: linear-gradient(to right, #ff9a9e, #fad0c4);
-  text-align: center;
-  color: #fff;
-  margin: 0;
-  padding: 0;
-}
-
-.slide {
-  display: none;
-  padding: 60px 20px;
-  min-height: 100vh;
-}
-
-.slide.active {
-  display: block;
-}
-
-h1, h2 {
-  margin-bottom: 20px;
-}
-
-p {
-  font-size: 20px;
-  max-width: 600px;
-  margin: auto;
-}
-
-button {
-  margin-top: 30px;
-  padding: 12px 25px;
-  font-size: 18px;
-  border: none;
-  border-radius: 25px;
-  cursor: pointer;
-  background: #fff;
-  color: #ff5e78;
-  font-weight: bold;
-}
-
-button:hover {
-  transform: scale(1.05);
-}
-
-img {
-  width: 250px;
-  height: auto;
-  border-radius: 20px;
-  margin-bottom: 20px;
-}
-let currentSlide = 0;
-const slides = document.querySelectorAll(".slide");
-
-function nextSlide() {
-  slides[currentSlide].classList.remove("active");
-  currentSlide++;
-  if (currentSlide >= slides.length) currentSlide = slides.length - 1;
-  slides[currentSlide].classList.add("active");
-}

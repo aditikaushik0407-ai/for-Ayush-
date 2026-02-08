@@ -1,125 +1,347 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>For Ayush ❤️</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aditi x Ayush: Our Lifetime</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #fff5f7;
+            overflow-x: hidden;
+        }
+        .font-romantic { font-family: 'Dancing Script', cursive; }
+        
+        .fade-in { animation: fadeIn 0.8s ease-in forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-      color: white;
-      text-align: center;
-    }
+        .heart-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
 
-    .slide {
-      display: none;
-      min-height: 100vh;
-      padding: 70px 20px;
-      box-sizing: border-box;
-    }
+        .benefit-card {
+            transition: all 0.3s ease;
+        }
+        .benefit-card:hover {
+            transform: translateY(-10px);
+        }
 
-    .slide.active {
-      display: block;
-    }
+        #unlock-screen {
+            background: linear-gradient(135deg, #ffafbd 0%, #ffc3a0 100%);
+        }
 
-    h1, h2, h3 {
-      margin-bottom: 20px;
-    }
+        .hidden-section {
+            display: none;
+        }
 
-    p {
-      font-size: 20px;
-      max-width: 650px;
-      margin: 0 auto 30px;
-      line-height: 1.5;
-    }
+        .upload-overlay {
+            background: rgba(0,0,0,0.4);
+            opacity: 0;
+            transition: opacity 0.3s;
+            cursor: pointer;
+        }
+        .benefit-card:hover .upload-overlay {
+            opacity: 1;
+        }
 
-    button {
-      margin: 10px;
-      padding: 12px 28px;
-      font-size: 18px;
-      border: none;
-      border-radius: 30px;
-      cursor: pointer;
-      background: white;
-      color: #ff5e78;
-      font-weight: bold;
-    }
-
-    button:hover {
-      transform: scale(1.08);
-    }
-  </style>
+        .loading-spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid white;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
 </head>
-
 <body>
 
-  <div class="slide active">
-    <h1>Ayush 💖</h1>
-    <h2>Will you choose to be with Aditi for a lifetime?</h2>
-    <button onclick="nextSlide()">YES ❤️</button>
-    <button onclick="nextSlide()">YES, obviously 😌</button>
-  </div>
+    <div class="heart-bg" id="heart-container"></div>
 
-  <div class="slide">
-    <h1>Congratulations 🎉</h1>
-    <p>
-      You’ve just chosen a lifetime of happiness, love,
-      laughter and a little drama 😉
-    </p>
-    <h2>Welcome to Team Aditi 💍</h2>
-    <button onclick="nextSlide()">Show my benefits 😍</button>
-  </div>
+    <!-- STAGE 1: THE BIG QUESTION -->
+    <div id="unlock-screen" class="fixed inset-0 z-[100] flex items-center justify-center p-6 text-center">
+        <div class="bg-white/90 backdrop-blur-md p-8 md:p-12 rounded-3xl shadow-2xl max-w-2xl fade-in">
+            <h1 class="text-4xl md:text-6xl font-romantic text-rose-600 mb-6">Hey Ayush...</h1>
+            <p class="text-xl md:text-2xl text-gray-700 mb-8 leading-relaxed">
+                I've been thinking about us, and I have one simple question for you...
+            </p>
+            <div class="bg-rose-50 p-6 rounded-2xl border-2 border-rose-200 mb-10">
+                <h2 class="text-2xl md:text-3xl font-bold text-rose-700">
+                    Are you ready to continue our beautiful journey together, today and every day after?
+                </h2>
+            </div>
+            <div class="flex flex-wrap justify-center gap-4">
+                <button onclick="unlockWebsite()" class="bg-rose-600 hover:bg-rose-700 text-white text-xl font-bold py-4 px-10 rounded-full shadow-lg transform transition hover:scale-110 active:scale-95">
+                    YES, FOREVER! ❤️
+                </button>
+                <button onmouseover="moveNo(this)" id="no-btn" class="bg-gray-200 text-gray-500 text-xl font-bold py-4 px-10 rounded-full transition-all">
+                    No
+                </button>
+            </div>
+        </div>
+    </div>
 
-  <div class="slide">
-    <h2>Benefit #1 💫</h2>
-    <p>
-      You get a partner who loves you endlessly,
-      believes in you always, and cheers for you even louder than you do 🫶
-    </p>
-    <button onclick="nextSlide()">Next →</button>
-  </div>
+    <!-- STAGE 2: THE MAIN WEBSITE -->
+    <main id="main-content" class="hidden-section pb-20">
+        
+        <!-- Celebration Header -->
+        <header class="h-screen flex flex-col items-center justify-center text-center px-6 relative">
+            <div class="fade-in">
+                <div class="text-rose-500 text-6xl mb-4"><i class="fa-solid fa-infinity"></i></div>
+                <h1 class="text-5xl md:text-8xl font-romantic text-rose-600 mb-4 text-shadow-sm">Aditi x Ayush</h1>
+                <p class="text-2xl md:text-3xl text-rose-800 font-semibold mb-8">Building our lifetime of memories, one laugh at a time.</p>
+                <div class="animate-bounce text-rose-400 text-3xl">
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+            </div>
+        </header>
 
-  <div class="slide">
-    <h2>Benefit #2 ❤️</h2>
-    <p>
-      Unlimited hugs, surprise kisses, emotional support
-      and comfort—especially because you deserve all of it 🤍
-    </p>
-    <button onclick="nextSlide()">Next →</button>
-  </div>
+        <!-- Benefits Intro -->
+        <section class="max-w-6xl mx-auto px-6 py-20 text-center">
+            <h2 class="text-4xl md:text-5xl font-romantic text-rose-600 mb-6">Your Lifetime Benefits</h2>
+            <p class="text-xl text-gray-600 mb-16">Since you're the best part of my life, here's what you get for being mine. Add our photos to unlock them!</p>
 
-  <div class="slide">
-    <h2>Benefit #3 😄</h2>
-    <p>
-      Life with Aditi means laughter in small moments,
-      silly jokes, deep talks and a best friend forever 🥹
-    </p>
-    <button onclick="nextSlide()">Next →</button>
-  </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                
+                <!-- Benefit 1 -->
+                <div class="benefit-card bg-white p-6 rounded-3xl shadow-xl border-b-8 border-rose-400">
+                    <div class="group h-64 rounded-2xl mb-6 overflow-hidden bg-rose-100 flex items-center justify-center relative">
+                        <img id="img-1" src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&q=80&w=500" class="w-full h-full object-cover" alt="Cooking">
+                        <div class="upload-overlay absolute inset-0 flex items-center justify-center" id="overlay-1">
+                            <label class="cursor-pointer bg-rose-500 text-white p-4 rounded-full shadow-2xl transform hover:scale-110 transition">
+                                <i class="fa-solid fa-camera text-2xl"></i>
+                                <input type="file" class="hidden" accept="image/*" onchange="handleFileUpload(this, 'img-1')">
+                            </label>
+                        </div>
+                    </div>
+                    <h3 class="text-2xl font-bold text-rose-700 mb-3">Personal Masterchef</h3>
+                    <p class="text-gray-600">Unlimited access to experimental snacks and meals made with 100% extra love just for Ayush.</p>
+                </div>
 
-  <div class="slide">
-    <h2>Benefit #4 💍</h2>
-    <p>
-      Choosing Aditi means choosing love, friendship,
-      growth and someone who chooses you every single day 💖
-    </p>
-    <h3>Forever & Always, Ayush ❤️</h3>
-  </div>
+                <!-- Benefit 2 -->
+                <div class="benefit-card bg-white p-6 rounded-3xl shadow-xl border-b-8 border-rose-400">
+                    <div class="group h-64 rounded-2xl mb-6 overflow-hidden bg-rose-100 flex items-center justify-center relative">
+                        <img id="img-2" src="https://images.unsplash.com/photo-1516534775068-ba3e84529519?auto=format&fit=crop&q=80&w=500" class="w-full h-full object-cover" alt="Hugs">
+                        <div class="upload-overlay absolute inset-0 flex items-center justify-center" id="overlay-2">
+                            <label class="cursor-pointer bg-rose-500 text-white p-4 rounded-full shadow-2xl transform hover:scale-110 transition">
+                                <i class="fa-solid fa-camera text-2xl"></i>
+                                <input type="file" class="hidden" accept="image/*" onchange="handleFileUpload(this, 'img-2')">
+                            </label>
+                        </div>
+                    </div>
+                    <h3 class="text-2xl font-bold text-rose-700 mb-3">The Hug Station</h3>
+                    <p class="text-gray-600">Free emotional therapy and premium quality hugs available 24/7. Guaranteed to solve 99% of your stress.</p>
+                </div>
 
-  <script>
-    let currentSlide = 0;
-    const slides = document.querySelectorAll(".slide");
+                <!-- Benefit 3 -->
+                <div class="benefit-card bg-white p-6 rounded-3xl shadow-xl border-b-8 border-rose-400">
+                    <div class="group h-64 rounded-2xl mb-6 overflow-hidden bg-rose-100 flex items-center justify-center relative">
+                        <img id="img-3" src="https://images.unsplash.com/photo-1512486130939-2c4f79935e4f?auto=format&fit=crop&q=80&w=500" class="w-full h-full object-cover" alt="No Plans">
+                        <div class="upload-overlay absolute inset-0 flex items-center justify-center" id="overlay-3">
+                            <label class="cursor-pointer bg-rose-500 text-white p-4 rounded-full shadow-2xl transform hover:scale-110 transition">
+                                <i class="fa-solid fa-camera text-2xl"></i>
+                                <input type="file" class="hidden" accept="image/*" onchange="handleFileUpload(this, 'img-3')">
+                            </label>
+                        </div>
+                    </div>
+                    <h3 class="text-2xl font-bold text-rose-700 mb-3">Professional Non-Planner</h3>
+                    <p class="text-gray-600">I don't plan anything, but I will eventually decide what we're eating after saying "anything is fine" for 45 minutes.</p>
+                </div>
 
-    function nextSlide() {
-      slides[currentSlide].classList.remove("active");
-      currentSlide++;
-      if (currentSlide < slides.length) {
-        slides[currentSlide].classList.add("active");
-      }
-    }
-  </script>
+                <!-- Benefit 4 -->
+                <div class="benefit-card bg-white p-6 rounded-3xl shadow-xl border-b-8 border-rose-400">
+                    <div class="group h-64 rounded-2xl mb-6 overflow-hidden bg-rose-100 flex items-center justify-center relative">
+                        <img id="img-4" src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=500" class="w-full h-full object-cover" alt="Cheer">
+                        <div class="upload-overlay absolute inset-0 flex items-center justify-center" id="overlay-4">
+                            <label class="cursor-pointer bg-rose-500 text-white p-4 rounded-full shadow-2xl transform hover:scale-110 transition">
+                                <i class="fa-solid fa-camera text-2xl"></i>
+                                <input type="file" class="hidden" accept="image/*" onchange="handleFileUpload(this, 'img-4')">
+                            </label>
+                        </div>
+                    </div>
+                    <h3 class="text-2xl font-bold text-rose-700 mb-3">Chief Cheerleader</h3>
+                    <p class="text-gray-600">President of the Ayush Fan Club. Every small win is treated like a World Cup victory!</p>
+                </div>
 
+                <!-- Benefit 5 -->
+                <div class="benefit-card bg-white p-6 rounded-3xl shadow-xl border-b-8 border-rose-400">
+                    <div class="group h-64 rounded-2xl mb-6 overflow-hidden bg-rose-100 flex items-center justify-center relative">
+                        <img id="img-5" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=500" class="w-full h-full object-cover" alt="Laugh">
+                        <div class="upload-overlay absolute inset-0 flex items-center justify-center" id="overlay-5">
+                            <label class="cursor-pointer bg-rose-500 text-white p-4 rounded-full shadow-2xl transform hover:scale-110 transition">
+                                <i class="fa-solid fa-camera text-2xl"></i>
+                                <input type="file" class="hidden" accept="image/*" onchange="handleFileUpload(this, 'img-5')">
+                            </label>
+                        </div>
+                    </div>
+                    <h3 class="text-2xl font-bold text-rose-700 mb-3">Chaos & Laughter</h3>
+                    <p class="text-gray-600">Guaranteed dose of silly jokes, weird dances, and fun drama to keep things spicy!</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Appreciation Section -->
+        <section class="bg-rose-600 py-20 px-6 text-white text-center">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-4xl md:text-6xl font-romantic mb-10">Why I Love You, Ayush</h2>
+                <p class="text-xl md:text-2xl leading-relaxed italic mb-10">
+                    "Beyond all the benefits and the fun, I want you to know that you are the most amazing man I've ever known. Your patience, your kindness, and the way you look at me make me feel like the luckiest girl in the world. Thank you for being my Ayush."
+                </p>
+                <div class="flex justify-center gap-6 text-4xl">
+                    <i class="fa-solid fa-heart animate-pulse"></i>
+                    <i class="fa-solid fa-infinity"></i>
+                    <i class="fa-solid fa-heart animate-pulse"></i>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Agreement -->
+        <section class="max-w-3xl mx-auto px-6 py-20 text-center">
+            <div class="bg-white p-8 md:p-12 rounded-3xl shadow-2xl border-2 border-rose-100">
+                <h2 class="text-3xl font-bold text-rose-700 mb-6 uppercase tracking-widest">Our Lifetime Pact</h2>
+                <div class="text-left space-y-4 text-gray-700 mb-10">
+                    <p>1. Ayush agrees to provide forehead kisses daily.</p>
+                    <p>2. Aditi agrees to laugh at 80% of Ayush's jokes (even the bad ones).</p>
+                    <p>3. Both parties agree that "What should we eat?" is a valid 2-hour conversation.</p>
+                    <p>4. This contract is valid for 100+ years and cannot be canceled.</p>
+                </div>
+                <div class="flex flex-col items-center gap-4">
+                    <div class="w-full border-b-2 border-gray-300 pt-10"></div>
+                    <p class="font-romantic text-3xl text-rose-600">Aditi & Ayush Forever</p>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center py-10 text-rose-400 font-bold">
+            <p>Made with ❤️ for Ayush</p>
+        </footer>
+
+    </main>
+
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const firebaseConfig = JSON.parse(__firebase_config);
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'aditi-ayush-lifetime';
+
+        let user = null;
+
+        // Initialize Auth FIRST (Rule 3)
+        const initAuth = async () => {
+          if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+            await signInWithCustomToken(auth, __initial_auth_token);
+          } else {
+            await signInAnonymously(auth);
+          }
+        };
+
+        onAuthStateChanged(auth, (u) => {
+            user = u;
+            if (user) loadPhotos();
+        });
+
+        initAuth();
+
+        function loadPhotos() {
+            if (!user) return;
+            // Rule 1: Using strict path /artifacts/{appId}/public/data/{collection}
+            const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'gallery');
+            onSnapshot(docRef, (snapshot) => {
+                if (snapshot.exists()) {
+                    const data = snapshot.data();
+                    for (let i = 1; i <= 5; i++) {
+                        if (data[`img-${i}`]) {
+                            document.getElementById(`img-${i}`).src = data[`img-${i}`];
+                        }
+                    }
+                }
+            }, (err) => console.error("Load failed:", err));
+        }
+
+        window.handleFileUpload = async (input, targetId) => {
+            const file = input.files[0];
+            if (!file || !user) return;
+
+            const overlay = document.getElementById(`overlay-${targetId.split('-')[1]}`);
+            const originalHTML = overlay.innerHTML;
+            overlay.innerHTML = '<div class="loading-spinner"></div>';
+
+            const reader = new FileReader();
+            reader.onload = async (e) => {
+                const base64 = e.target.result;
+                document.getElementById(targetId).src = base64;
+
+                try {
+                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'gallery');
+                    await setDoc(docRef, { [targetId]: base64 }, { merge: true });
+                } catch (err) {
+                    console.error("Save failed:", err);
+                } finally {
+                    overlay.innerHTML = originalHTML;
+                }
+            };
+            reader.readAsDataURL(file);
+        };
+
+        window.unlockWebsite = () => {
+            const unlock = document.getElementById('unlock-screen');
+            const main = document.getElementById('main-content');
+            unlock.style.opacity = '0';
+            setTimeout(() => {
+                unlock.classList.add('hidden');
+                main.classList.remove('hidden-section');
+                main.classList.add('fade-in');
+                createHearts();
+            }, 500);
+        };
+
+        window.moveNo = (btn) => {
+            btn.style.position = 'fixed';
+            btn.style.left = Math.random() * (window.innerWidth - 100) + 'px';
+            btn.style.top = Math.random() * (window.innerHeight - 50) + 'px';
+        };
+
+        function createHearts() {
+            const container = document.getElementById('heart-container');
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.innerHTML = '<i class="fa-solid fa-heart"></i>';
+                heart.className = 'absolute text-rose-200 pointer-events-none';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.top = '110vh';
+                heart.style.fontSize = Math.random() * 20 + 10 + 'px';
+                heart.style.transition = `all ${Math.random() * 3 + 3}s linear`;
+                container.appendChild(heart);
+                setTimeout(() => {
+                    heart.style.top = '-10vh';
+                    heart.style.opacity = '0';
+                }, 100);
+                setTimeout(() => heart.remove(), 6000);
+            }, 400);
+        }
+    </script>
 </body>
 </html>
